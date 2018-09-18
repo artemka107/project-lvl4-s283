@@ -22,9 +22,9 @@ class Frame extends React.Component {
       <div
         style={{
           height: '500px',
-          border: '1px solid black',
           overflowY: 'auto',
         }}
+        className="border"
       >
         <div ref={this.listGroup}>
           <ListGroup>

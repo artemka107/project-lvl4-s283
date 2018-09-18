@@ -17,9 +17,7 @@ const Channels = ({ channels, currentChannelId, setCurrentChannelId }) => {
         <NavItem
           key={id}
           eventKey={id}
-          style={{
-            width: '100%',
-          }}
+          className="w-100"
         >
           {name}
         </NavItem>

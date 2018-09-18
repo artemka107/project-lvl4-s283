@@ -16,6 +16,7 @@ export const sendMessage = (channelId, attributes) => async (dispatch) => {
     });
     dispatch(sendMessageSuccess());
   } catch (e) {
+    console.log(e);
     dispatch(sendMessageFailure());
   }
 };

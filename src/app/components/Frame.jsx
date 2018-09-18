@@ -1,5 +1,45 @@
 import React from 'react';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
-const Frame = () => <div style={{ height: '500px', border: '1px solid black' }} />;
+class Frame extends React.Component {
+  listGroup = React.createRef();
 
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.listGroup.current.scrollIntoView(false);
+  }
+
+  render() {
+    const { messages } = this.props;
+    return (
+      <div
+        style={{
+          height: '500px',
+          border: '1px solid black',
+          overflowY: 'auto',
+        }}
+      >
+        <div ref={this.listGroup}>
+          <ListGroup>
+            {messages.map(({ id, text, author }) => (
+              <ListGroupItem
+                key={id}
+                header={author.name}
+              >
+                {text}
+              </ListGroupItem>
+            ))}
+          </ListGroup>
+        </div>
+      </div>
+    );
+  }
+}
 export default Frame;

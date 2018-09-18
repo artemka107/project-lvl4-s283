@@ -1,14 +1,14 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import Channels from './components/Channels';
-import Frame from './components/Frame';
-import InputForm from './components/InputForm';
+import Channels from '../containers/Channels';
+import Frame from '../containers/Frame';
+import ChatForm from '../containers/ChatForm';
 
-const App = ({ channels }) => (
+const App = () => (
   <Grid>
     <Row className="show-grid">
       <Col md={3}>
-        <Channels channels={channels} />
+        <Channels />
       </Col>
       <Col md={9}>
         <Frame />
@@ -16,7 +16,7 @@ const App = ({ channels }) => (
     </Row>
     <Row className="show-grid">
       <Col md={12}>
-        <InputForm />
+        <ChatForm />
       </Col>
     </Row>
   </Grid>);

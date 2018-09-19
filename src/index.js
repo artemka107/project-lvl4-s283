@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import gon from 'gon';
 import listenSocket from './app/socket-actions';
-import App from './app/containers/App';
+import App from './app/components/App';
 import reducers from './app/reducers';
 import * as actions from './app/actions';
 import 'bootstrap/dist/css/bootstrap.min.css';

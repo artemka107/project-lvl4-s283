@@ -1,8 +1,18 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import Channels from '../containers/Channels';
-import Frame from '../containers/Frame';
-import ChatForm from '../containers/ChatForm';
+import Channels from './Channels';
+import Frame from './Frame';
+import ChatForm from './ChatForm';
+import connect from '../connect';
+
+const mapStateToProps = ({ user, channels, currentChannelId }) => {
+  const props = {
+    channels,
+    user,
+    currentChannelId,
+  };
+  return props;
+};
 
 const App = () => (
   <Grid>
@@ -21,4 +31,4 @@ const App = () => (
     </Row>
   </Grid>);
 
-export default App;
+export default connect(mapStateToProps)(App);

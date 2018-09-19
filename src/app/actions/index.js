@@ -1,32 +1,27 @@
 import { createAction } from 'redux-actions';
+import { SubmissionError } from 'redux-form';
 import axios from 'axios';
 import routes from '../routes';
 
-export const sendMessageRequest = createAction('SEND_MESSAGE_REQUEST');
-export const sendMessageSuccess = createAction('SEND_MESSAGE_SUCCESS');
-export const sendMessageFailure = createAction('SEND_MESSAGE_FAILURE');
-
-export const sendMessage = (channelId, attributes) => async (dispatch) => {
-  dispatch(sendMessageRequest());
+export const sendMessage = (channelId, attributes) => async () => {
   try {
     await axios.post(routes.sendMessage(channelId), {
       data: {
         attributes,
       },
     });
-    dispatch(sendMessageSuccess());
   } catch (e) {
     console.log(e);
-    dispatch(sendMessageFailure());
+    throw new SubmissionError(e);
   }
 };
 
-export const addChannels = createAction('ADD_CHANNELS');
+export const addChannels = createAction('CHANNELS_ADD');
 
-export const addUsername = createAction('ADD_USERNAME');
+export const addUsername = createAction('USERNAME_ADD');
 
-export const setCurrentChannelId = createAction('SET_CURRENT_CHANNEL_ID');
+export const setCurrentChannelId = createAction('CURRENT_CHANNEL_ID_SET');
 
-export const addMessage = createAction('ADD_MESSAGE');
+export const addMessage = createAction('MESSAGE_ADD');
 
-export const normalizeMessages = createAction('NORMALIZE_MESSAGES');
+export const normalizeMessages = createAction('MESSAGES_NORMALIZE');

@@ -1,5 +1,14 @@
 import React from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
+import connect from '../connect';
+
+const mapStateToProps = ({ currentChannelId, channels }) => {
+  const props = {
+    currentChannelId,
+    channels,
+  };
+  return props;
+};
 
 const Channels = ({ channels, currentChannelId, setCurrentChannelId }) => {
   const handleSelect = (key) => {
@@ -26,4 +35,4 @@ const Channels = ({ channels, currentChannelId, setCurrentChannelId }) => {
   );
 };
 
-export default Channels;
+export default connect(mapStateToProps)(Channels);

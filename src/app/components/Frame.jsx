@@ -1,6 +1,28 @@
 import React from 'react';
+import { createSelector } from 'reselect';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import connect from '../connect';
 
+const getMessages = state => state.messages;
+const getCurrentChannelId = state => state.currentChannelId;
+
+const messagesSelector = createSelector(
+  getMessages,
+  getCurrentChannelId,
+  (messages, id) => Object
+    .values(messages)
+    .filter(({ channelId }) => channelId === id),
+);
+
+const mapStateToProps = (state) => {
+  const props = {
+    messages: messagesSelector(state),
+  };
+  return props;
+};
+
+
+@connect(mapStateToProps)
 class Frame extends React.Component {
   listGroup = React.createRef();
 

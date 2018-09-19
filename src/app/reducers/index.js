@@ -2,21 +2,7 @@ import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import { reducer as formReducer } from 'redux-form';
 import { keyBy } from 'lodash';
-import constants from '../constants';
 import * as actions from '../actions';
-
-
-const messageSendingState = handleActions({
-  [actions.sendMessageRequest]() {
-    return constants.REQUEST;
-  },
-  [actions.sendMessageSuccess]() {
-    return constants.SUCCESS;
-  },
-  [actions.sendMessageFailure]() {
-    return constants.FAILURE;
-  },
-}, '');
 
 const username = handleActions({
   [actions.addUsername](state, { payload }) {
@@ -27,6 +13,12 @@ const username = handleActions({
 const channels = handleActions({
   [actions.addChannels](state, { payload }) {
     return payload.channels;
+  },
+  [actions.addChannel](state, { payload: { channel } }) {
+    return [...state, channel];
+  },
+  [actions.removeChannel](state, { payload: { id } }) {
+    return state.filter(channel => channel.id !== id);
   },
 }, {});
 
@@ -45,12 +37,27 @@ const messages = handleActions({
   },
 }, {});
 
+const modal = handleActions({
+  [actions.showModal](state, { payload: { name } }) {
+    return {
+      name,
+      isVisible: true,
+    };
+  },
+  [actions.hideModal](state, { payload: { name } }) {
+    return {
+      name,
+      isVisible: false,
+    };
+  },
+}, {});
+
 
 export default combineReducers({
   username,
   channels,
   currentChannelId,
   messages,
-  messageSendingState,
+  modal,
   form: formReducer,
 });

@@ -7,4 +7,8 @@ export default (store) => {
   socket.on('newMessage', ({ data: { attributes } }) => {
     store.dispatch(actions.addMessage({ message: attributes }));
   });
+
+  socket.on('newChannel', ({ data: { attributes } }) => {
+    store.dispatch(actions.addChannel({ channel: attributes }));
+  });
 };

@@ -1,10 +1,11 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import {
-  FormGroup, Button, Alert, Row, Col,
+  FormGroup, Button, Row, Col,
 } from 'react-bootstrap';
 import FieldInput from './FieldInput';
 import connect from '../connect';
+import RenderAlert from './RenderAlert';
 
 const mapStateToProps = ({ currentChannelId, username }) => {
   const props = {
@@ -33,17 +34,6 @@ const ChatForm = ({
     });
   };
 
-  const renderAlert = (isVisible) => {
-    const alert = (
-      <Alert
-        bsStyle="danger"
-      >
-        <h4>Something went wrong, please, try later!</h4>
-      </Alert>
-    );
-    return isVisible ? alert : null;
-  };
-
   return (
     <div className="mt-5">
       <form
@@ -56,6 +46,7 @@ const ChatForm = ({
             >
               <Field
                 name="message"
+                type="textarea"
                 component={FieldInput}
                 disabled={submitting}
               />
@@ -75,7 +66,10 @@ const ChatForm = ({
           </Col>
         </Row>
       </form>
-      {renderAlert(submitFailed)}
+      <RenderAlert
+        isRender={submitFailed}
+        style="danger"
+      />
     </div>
   );
 };

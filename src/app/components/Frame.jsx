@@ -1,6 +1,11 @@
 import React from 'react';
 import { createSelector } from 'reselect';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import {
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
+} from 'reactstrap';
 import connect from '../connect';
 
 const getMessages = state => state.messages;
@@ -53,9 +58,9 @@ class Frame extends React.Component {
             {messages.map(({ id, text, author }) => (
               <ListGroupItem
                 key={id}
-                header={author.name}
               >
-                {text}
+                <ListGroupItemHeading>{author.name}</ListGroupItemHeading>
+                <ListGroupItemText>{text}</ListGroupItemText>
               </ListGroupItem>
             ))}
           </ListGroup>

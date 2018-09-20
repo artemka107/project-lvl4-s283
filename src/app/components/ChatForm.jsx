@@ -2,7 +2,7 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import {
   FormGroup, Button, Row, Col,
-} from 'react-bootstrap';
+} from 'reactstrap';
 import FieldInput from './FieldInput';
 import connect from '../connect';
 import RenderAlert from './RenderAlert';
@@ -41,9 +41,7 @@ const ChatForm = ({
       >
         <Row>
           <Col md={10}>
-            <FormGroup
-              controlId="formControlsTextarea"
-            >
+            <FormGroup>
               <Field
                 name="message"
                 type="textarea"
@@ -55,9 +53,8 @@ const ChatForm = ({
           <Col md={2}>
             <Button
               type="submit"
-              bsStyle="primary"
-              bsSize="large"
               disabled={submitting}
+              color="primary"
               className="w-100"
             >
               Send
@@ -68,7 +65,7 @@ const ChatForm = ({
       </form>
       <RenderAlert
         isRender={submitFailed}
-        style="danger"
+        type="danger"
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'reactstrap';
 import connect from '../connect';
 import FormModal from './FormModal';
 
@@ -26,6 +26,7 @@ const AddChannel = ({
     <div className="mt-3">
       <Button
         onClick={() => showModal({ name: currentModalName })}
+        color="primary"
       >
         Add +
       </Button>

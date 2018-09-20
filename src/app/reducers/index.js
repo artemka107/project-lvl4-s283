@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import { reducer as formReducer } from 'redux-form';
-import { keyBy } from 'lodash';
+import { keyBy, omitBy } from 'lodash';
 import * as actions from '../actions';
 
 const username = handleActions({
@@ -17,8 +17,32 @@ const channels = handleActions({
   [actions.addChannel](state, { payload: { channel } }) {
     return [...state, channel];
   },
-  [actions.removeChannel](state, { payload: { id } }) {
+  [actions.removeChannelSuccess](state, { payload: { id } }) {
     return state.filter(channel => channel.id !== id);
+  },
+}, {});
+
+const channelsRemovingState = handleActions({
+  [actions.removeChannelRequest]() {
+    return {
+      request: true,
+      success: false,
+      failure: false,
+    };
+  },
+  [actions.removeChannelSuccess]() {
+    return {
+      request: false,
+      success: true,
+      failure: false,
+    };
+  },
+  [actions.removeChannelFailure]() {
+    return {
+      request: false,
+      success: false,
+      failure: true,
+    };
   },
 }, {});
 
@@ -34,6 +58,9 @@ const messages = handleActions({
   },
   [actions.normalizeMessages](state, { payload: { messagesList } }) {
     return keyBy(messagesList, 'id');
+  },
+  [actions.removeChannelSuccess](state, { payload: { id } }) {
+    return omitBy(state, ({ channelId }) => channelId === id);
   },
 }, {});
 
@@ -56,6 +83,7 @@ const modal = handleActions({
 export default combineReducers({
   username,
   channels,
+  channelsRemovingState,
   currentChannelId,
   messages,
   modal,

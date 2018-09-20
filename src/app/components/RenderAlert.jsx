@@ -1,10 +1,10 @@
-import { Alert } from 'react-bootstrap';
+import { Alert } from 'reactstrap';
 import React from 'react';
 
-const RenderAlert = ({ isRender, style }) => {
+const RenderAlert = ({ isRender, type }) => {
   const alert = (
     <Alert
-      bsStyle={style}
+      color={type}
     >
       <h4>Something went wrong, please, try later!</h4>
     </Alert>

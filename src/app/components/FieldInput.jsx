@@ -1,17 +1,17 @@
 import React from 'react';
-import { FormControl } from 'react-bootstrap';
+import { Label, Input } from 'reactstrap';
 
 const FieldInput = ({
   input, label, disabled, type,
 }) => (
-  <div>
+  <Label className="w-100">
     {label ? <span>{label}</span> : null}
-    <FormControl
-      componentClass={type}
+    <Input
+      type={type}
       disabled={disabled}
       {...input}
     />
-  </div>
+  </Label>
 );
 
 export default FieldInput;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'reactstrap';
 import Channels from './Channels';
 import Frame from './Frame';
 import ChatForm from './ChatForm';
@@ -16,7 +16,7 @@ const mapStateToProps = ({ user, channels, currentChannelId }) => {
 };
 
 const App = () => (
-  <Grid>
+  <Container>
     <Row className="show-grid">
       <Col md={3}>
         <Channels />
@@ -31,6 +31,6 @@ const App = () => (
         <ChatForm />
       </Col>
     </Row>
-  </Grid>);
+  </Container>);
 
 export default connect(mapStateToProps)(App);

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  Button, Modal, FormGroup,
-} from 'react-bootstrap';
+  Button, Modal, FormGroup, ModalHeader, ModalBody,
+} from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
 import FieldInput from './FieldInput';
 import RenderAlert from './RenderAlert';
@@ -19,22 +19,21 @@ const FormModal = ({
   submitFailed,
 }) => (
   <Modal
-    show={isShow}
-    onHide={hideModal}
+    isOpen={isShow}
     className="pt-5"
+    toggle={hideModal}
   >
-    <Modal.Header closeButton />
-    <Modal.Body>
+    <ModalHeader toggle={hideModal} />
+    <ModalBody>
       <RenderAlert
         isRender={submitFailed}
-        style="danger"
+        type="danger"
       />
       <form
         onSubmit={handleSubmit(handleAction)}
         className="d-flex justify-content-end flex-wrap"
       >
         <FormGroup
-          controlId="formModalText"
           className="w-100"
         >
           <Field
@@ -48,13 +47,12 @@ const FormModal = ({
         </FormGroup>
         <Button
           type="submit"
-          bsStyle="primary"
           disabled={submitting}
         >
           {buttonText}
         </Button>
       </form>
-    </Modal.Body>
+    </ModalBody>
   </Modal>
 );
 

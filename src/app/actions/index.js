@@ -47,3 +47,19 @@ export const createChannel = attributes => async () => {
     throw new SubmissionError(e);
   }
 };
+
+export const removeChannelRequest = createAction('CHANNEL_REMOVE_REQUEST');
+export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
+export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
+
+
+export const removeChannel = channelId => async (dispatch) => {
+  dispatch(removeChannelRequest());
+  try {
+    await axios.delete(routes.channels(channelId));
+    dispatch(hideModal({ name: 'confirmation' }));
+  } catch (e) {
+    dispatch(removeChannelFailure());
+    console.log(e);
+  }
+};

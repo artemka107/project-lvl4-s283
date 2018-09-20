@@ -8,26 +8,35 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import { createSelector } from 'reselect';
+import { reduxForm } from 'redux-form';
 import ConfirmationModal from './ConfirmationModal';
+import CustomModal from './CustomModal';
 import connect from '../connect';
+import ChannelsForm from './ChannelsForm';
 
-const mapStateToProps = ({
-  currentChannelId,
-  channels,
-  removeChannel,
-  hideModal,
-  showModal,
-  modal,
-  channelsRemovingState,
-}) => {
+const EditChannelForm = reduxForm({
+  form: 'EditChannelForm',
+  onSubmitSuccess: (result, dispatch, { reset }) => {
+    reset();
+  },
+})(ChannelsForm);
+
+const getChannels = state => state.channels;
+
+const channelsSelector = createSelector(
+  getChannels,
+  messages => Object.values(messages),
+);
+
+const mapStateToProps = (state) => {
   const props = {
-    currentChannelId,
-    channels,
-    removeChannel,
-    hideModal,
-    showModal,
-    modal,
-    channelsRemovingState,
+    currentChannelId: state.currentChannelId,
+    channels: channelsSelector(state),
+    removeChannel: state.removeChannel,
+    editChannel: state.editChannel,
+    channelsRemovingState: state.channelsRemovingState,
+    modal: state.modal,
   };
   return props;
 };
@@ -35,18 +44,24 @@ const mapStateToProps = ({
 const Channels = ({
   channels,
   currentChannelId,
-  setCurrentChannelId,
-  removeChannel,
-  hideModal,
-  showModal,
-  modal,
   channelsRemovingState,
+  setCurrentChannelId,
+  showModal,
+  removeChannel,
+  editChannel,
+  modal,
 }) => {
   const handleChannelChange = id => (e) => {
     e.preventDefault();
     setCurrentChannelId({ id });
   };
-  const currentModal = 'confirmation';
+  const confirmationModal = 'confirmation';
+  const editChannelModal = 'editChannel';
+
+  const { name: text } = channels.find(({ id }) => id === modal.data.id) || { name: '' };
+  const initialValues = {
+    text,
+  };
 
   const NavItemMenu = channelId => (
     <UncontrolledDropdown
@@ -61,18 +76,28 @@ const Channels = ({
         color="link"
       />
       <DropdownMenu>
-        <DropdownItem>
+        <DropdownItem
+          onClick={() => showModal({
+            ui: {
+              name: editChannelModal,
+            },
+            data: {
+              id: channelId,
+            },
+          })}
+        >
           Edit
         </DropdownItem>
         <DropdownItem
-          onClick={() => showModal({ name: currentModal })}
+          onClick={() => showModal({
+            ui: {
+              name: confirmationModal,
+            },
+            data: {
+              id: channelId,
+            },
+          })}
         >
-          <ConfirmationModal
-            hideModal={() => hideModal({ name: currentModal })}
-            modal={modal}
-            handleAction={() => removeChannel(channelId)}
-            requestState={channelsRemovingState}
-          />
           Remove
         </DropdownItem>
       </DropdownMenu>
@@ -80,25 +105,47 @@ const Channels = ({
   );
 
   return (
-    <Nav
-      pills
-    >
-      { channels.map(({ name, id, removable }) => (
-        <NavItem
-          key={id}
-          className="position-relative w-100"
-        >
-          <NavLink
-            href="#"
-            onClick={handleChannelChange(id)}
-            active={id === currentChannelId}
+    <div>
+      <Nav
+        pills
+      >
+        { channels.map(({ name, id, removable }) => (
+          <NavItem
+            key={id}
+            className="position-relative w-100"
           >
-            {name}
-          </NavLink>
-          {removable ? NavItemMenu(id) : null}
-        </NavItem>
-      ))}
-    </Nav>
+            <NavLink
+              href="#"
+              onClick={handleChannelChange(id)}
+              active={id === currentChannelId}
+            >
+              {name}
+            </NavLink>
+            {removable ? NavItemMenu(id) : null}
+          </NavItem>
+        ))}
+      </Nav>
+      <ConfirmationModal
+        requestState={channelsRemovingState}
+        handleAction={removeChannel}
+      />
+      <CustomModal name={editChannelModal}>
+        <EditChannelForm
+          label="Channel name"
+          buttonText="Edit channel"
+          initialValues={initialValues}
+          handleAction={({ text }) => editChannel({
+            data: {
+              name: text,
+              ...modal.data,
+            },
+            ui: {
+              ...modal.ui,
+            },
+          })}
+        />
+      </CustomModal>
+    </div>
   );
 };
 

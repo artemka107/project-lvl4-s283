@@ -15,4 +15,8 @@ export default (store) => {
   socket.on('removeChannel', ({ data: { id } }) => {
     store.dispatch(actions.removeChannelSuccess({ id }));
   });
+
+  socket.on('renameChannel', ({ data: { attributes: { name, id } } }) => {
+    store.dispatch(actions.renameChannel({ name, id }));
+  });
 };

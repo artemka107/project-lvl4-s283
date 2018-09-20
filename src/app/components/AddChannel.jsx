@@ -1,42 +1,57 @@
 import React from 'react';
+import { reduxForm } from 'redux-form';
 import { Button } from 'reactstrap';
 import connect from '../connect';
-import FormModal from './FormModal';
+import CustomModal from './CustomModal';
+import ChannelsForm from './ChannelsForm';
 
 const mapStateToProps = ({
-  createChannel, showModal, hideModal, modal,
+  createChannel, showModal, modal,
 }) => {
   const props = {
     createChannel,
     showModal,
-    hideModal,
     modal,
   };
   return props;
 };
 
-const AddChannel = ({
-  createChannel, showModal, hideModal, modal,
-}) => {
+const AddChannelForm = reduxForm({
+  form: 'AddchannelForm',
+  onSubmitSuccess: (result, dispatch, { reset }) => {
+    reset();
+  },
+})(ChannelsForm);
+
+const AddChannel = ({ createChannel, showModal, modal }) => {
   const currentModalName = 'addChannel';
-  const { isVisible, name } = modal;
-  const isShow = isVisible && name === currentModalName;
 
   return (
     <div className="mt-3">
       <Button
-        onClick={() => showModal({ name: currentModalName })}
+        onClick={() => showModal({
+          ui: {
+            name: currentModalName,
+          },
+        })}
         color="primary"
       >
         Add +
       </Button>
-      <FormModal
-        label="Channel name"
-        buttonText="Add channel"
-        hideModal={() => hideModal({ name: currentModalName })}
-        isShow={isShow}
-        handleAction={({ text }) => createChannel({ name: text })}
-      />
+      <CustomModal name={currentModalName}>
+        <AddChannelForm
+          label="Channel name"
+          buttonText="Add channel"
+          handleAction={({ text }) => createChannel({
+            data: {
+              name: text,
+            },
+            ui: {
+              ...modal.ui,
+            },
+          })}
+        />
+      </CustomModal>
     </div>
   );
 };

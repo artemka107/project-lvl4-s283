@@ -20,6 +20,8 @@ export const addChannels = createAction('CHANNELS_ADD');
 
 export const addChannel = createAction('CHANNEL_ADD');
 
+export const renameChannel = createAction('CHANNEL_RENAME');
+
 export const addUsername = createAction('USERNAME_ADD');
 
 export const setCurrentChannelId = createAction('CURRENT_CHANNEL_ID_SET');
@@ -32,16 +34,33 @@ export const showModal = createAction('MODAL_SHOW');
 
 export const hideModal = createAction('MODAL_HIDE');
 
-export const createChannel = attributes => async () => {
+export const createChannel = ({ ui, data }) => async (dispatch) => {
   try {
     await axios.post(routes.channels(), {
       data: {
         attributes: {
-          ...attributes,
+          ...data,
           removable: true,
         },
       },
     });
+    dispatch(hideModal({ name: ui.name }));
+  } catch (e) {
+    console.log(e);
+    throw new SubmissionError(e);
+  }
+};
+
+export const editChannel = ({ ui, data }) => async (dispatch) => {
+  try {
+    await axios.patch(routes.channels(data.id), {
+      data: {
+        attributes: {
+          ...data,
+        },
+      },
+    });
+    dispatch(hideModal({ name: ui.name }));
   } catch (e) {
     console.log(e);
     throw new SubmissionError(e);
@@ -53,11 +72,11 @@ export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
 export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
 
 
-export const removeChannel = channelId => async (dispatch) => {
+export const removeChannel = ({ ui, data }) => async (dispatch) => {
   dispatch(removeChannelRequest());
   try {
-    await axios.delete(routes.channels(channelId));
-    dispatch(hideModal({ name: 'confirmation' }));
+    await axios.delete(routes.channels(data.id));
+    dispatch(hideModal({ name: ui.name }));
   } catch (e) {
     dispatch(removeChannelFailure());
     console.log(e);

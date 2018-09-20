@@ -5,19 +5,28 @@ import {
   ModalHeader,
   ModalFooter,
 } from 'reactstrap';
+import connect from '../connect';
 import RenderAlert from './RenderAlert';
 
+const mapStateToProps = (state) => {
+  const props = {
+    modal: state.modal,
+    hideModal: state.hideModal,
+  };
+  return props;
+};
 
 const ConfirmationModal = ({
-  modal,
-  hideModal,
+  name,
   handleAction,
   requestState,
+  modal,
+  hideModal,
 }) => (
   <Modal
-    isOpen={modal.isVisible && modal.name === 'confirmation'}
+    isOpen={modal.ui.isVisible && modal.ui.name === 'confirmation'}
     className="pt-5"
-    toggle={hideModal}
+    toggle={() => hideModal({ name })}
     centered
     size="sm"
   >
@@ -30,14 +39,14 @@ const ConfirmationModal = ({
       className="justify-content-center"
     >
       <Button
-        onClick={handleAction}
+        onClick={() => handleAction(modal)}
         color="primary"
         disabled={requestState.submitting}
       >
         Yes
       </Button>
       <Button
-        onClick={hideModal}
+        onClick={() => hideModal({ name })}
       >
         No
       </Button>
@@ -49,4 +58,4 @@ const ConfirmationModal = ({
   </Modal>
 );
 
-export default ConfirmationModal;
+export default connect(mapStateToProps)(ConfirmationModal);

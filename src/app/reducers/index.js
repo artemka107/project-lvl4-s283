@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { handleActions } from 'redux-actions';
 import { reducer as formReducer } from 'redux-form';
-import { keyBy, omitBy } from 'lodash';
+import { keyBy, omitBy, omit } from 'lodash';
 import * as actions from '../actions';
 
 const username = handleActions({
@@ -12,13 +12,19 @@ const username = handleActions({
 
 const channels = handleActions({
   [actions.addChannels](state, { payload }) {
-    return payload.channels;
+    return keyBy(payload.channels, 'id');
   },
   [actions.addChannel](state, { payload: { channel } }) {
-    return [...state, channel];
+    return { ...state, [channel.id]: channel };
+  },
+  [actions.renameChannel](state, { payload: { name, id } }) {
+    const channel = state[id];
+    const updatedChannel = { ...channel, name };
+
+    return { ...state, [channel.id]: updatedChannel };
   },
   [actions.removeChannelSuccess](state, { payload: { id } }) {
-    return state.filter(channel => channel.id !== id);
+    return omit(state, id);
   },
 }, {});
 
@@ -65,19 +71,31 @@ const messages = handleActions({
 }, {});
 
 const modal = handleActions({
-  [actions.showModal](state, { payload: { name } }) {
+  [actions.showModal](state, { payload: { ui, data } }) {
     return {
-      name,
-      isVisible: true,
+      ui: {
+        ...ui,
+        isVisible: true,
+      },
+      data,
     };
   },
-  [actions.hideModal](state, { payload: { name } }) {
+  [actions.hideModal](state, { payload: { ui } }) {
     return {
-      name,
-      isVisible: false,
+      ...state,
+      ui: {
+        ...ui,
+        isVisible: false,
+      },
     };
   },
-}, {});
+}, {
+  ui: {
+    isVisible: false,
+    name: '',
+  },
+  data: {},
+});
 
 
 export default combineReducers({

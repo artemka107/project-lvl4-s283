@@ -73,11 +73,14 @@ const messages = handleActions({
 const modal = handleActions({
   [actions.showModal](state, { payload: { ui, data } }) {
     return {
+      ...state,
       ui: {
         ...ui,
         isVisible: true,
       },
-      data,
+      data: {
+        ...data,
+      },
     };
   },
   [actions.hideModal](state, { payload: { ui } }) {

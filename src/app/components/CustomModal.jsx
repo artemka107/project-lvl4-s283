@@ -10,19 +10,24 @@ const mapStateToProps = (state) => {
   return props;
 };
 
-const CustomModal = ({
-  modal, name, hideModal, children,
-}) => (
-  <Modal
-    isOpen={modal.ui.isVisible && modal.ui.name === name}
-    className="pt-5"
-    toggle={() => hideModal({ name })}
-  >
-    <ModalHeader toggle={() => hideModal({ name })} />
-    <ModalBody>
-      {React.Children.map(children, child => child)}
-    </ModalBody>
-  </Modal>
-);
+@connect(mapStateToProps)
+export default class CustomModal extends React.Component {
+  render() {
+    const {
+      modal, name, hideModal, children,
+    } = this.props;
+    return (
+      <Modal
+        isOpen={modal.ui.isVisible && modal.ui.name === name}
+        className="pt-5"
+        toggle={() => hideModal({ name })}
+      >
+        <ModalHeader toggle={() => hideModal({ name })} />
+        <ModalBody>
+          {React.Children.map(children, child => child)}
+        </ModalBody>
+      </Modal>
 
-export default connect(mapStateToProps)(CustomModal);
+    );
+  }
+}

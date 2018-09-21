@@ -23,37 +23,43 @@ const AddChannelForm = reduxForm({
   },
 })(ChannelsForm);
 
-const AddChannel = ({ createChannel, showModal, modal }) => {
-  const currentModalName = 'addChannel';
+@connect(mapStateToProps)
+export default class AddChannel extends React.Component {
+  render() {
+    const currentModalName = 'addChannel';
+    const {
+      createChannel,
+      showModal,
+      modal,
+    } = this.props;
 
-  return (
-    <div className="mt-3">
-      <Button
-        onClick={() => showModal({
-          ui: {
-            name: currentModalName,
-          },
-        })}
-        color="primary"
-      >
-        Add +
-      </Button>
-      <CustomModal name={currentModalName}>
-        <AddChannelForm
-          label="Channel name"
-          buttonText="Add channel"
-          handleAction={({ text }) => createChannel({
-            data: {
-              name: text,
-            },
+    return (
+      <div className="mt-3">
+        <Button
+          onClick={() => showModal({
             ui: {
-              ...modal.ui,
+              name: currentModalName,
             },
           })}
-        />
-      </CustomModal>
-    </div>
-  );
-};
-
-export default connect(mapStateToProps)(AddChannel);
+          color="primary"
+        >
+          Add +
+        </Button>
+        <CustomModal name={currentModalName}>
+          <AddChannelForm
+            label="Channel name"
+            buttonText="Add channel"
+            handleAction={({ text }) => createChannel({
+              data: {
+                name: text,
+              },
+              ui: {
+                ...modal.ui,
+              },
+            })}
+          />
+        </CustomModal>
+      </div>
+    );
+  }
+}

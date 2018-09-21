@@ -30,25 +30,13 @@ const channels = handleActions({
 
 const channelsRemovingState = handleActions({
   [actions.removeChannelRequest]() {
-    return {
-      request: true,
-      success: false,
-      failure: false,
-    };
+    return 'request';
   },
   [actions.removeChannelSuccess]() {
-    return {
-      request: false,
-      success: true,
-      failure: false,
-    };
+    return 'success';
   },
   [actions.removeChannelFailure]() {
-    return {
-      request: false,
-      success: false,
-      failure: true,
-    };
+    return 'failure';
   },
 }, {});
 

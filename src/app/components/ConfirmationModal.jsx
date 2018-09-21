@@ -16,46 +16,51 @@ const mapStateToProps = (state) => {
   return props;
 };
 
-const ConfirmationModal = ({
-  name,
-  handleAction,
-  requestState,
-  modal,
-  hideModal,
-}) => (
-  <Modal
-    isOpen={modal.ui.isVisible && modal.ui.name === 'confirmation'}
-    className="pt-5"
-    toggle={() => hideModal({ name })}
-    centered
-    size="sm"
-  >
-    <ModalHeader
-      className="justify-content-center"
-    >
-      Are you sure?
-    </ModalHeader>
-    <ModalFooter
-      className="justify-content-center"
-    >
-      <Button
-        onClick={() => handleAction(modal)}
-        color="primary"
-        disabled={requestState.submitting}
-      >
-        Yes
-      </Button>
-      <Button
-        onClick={() => hideModal({ name })}
-      >
-        No
-      </Button>
-    </ModalFooter>
-    <RenderAlert
-      isRender={requestState.failure}
-      type="danger"
-    />
-  </Modal>
-);
+@connect(mapStateToProps)
+export default class ConfirmationModal extends React.Component {
+  render() {
+    const {
+      name,
+      handleAction,
+      requestState,
+      modal,
+      hideModal,
+    } = this.props;
 
-export default connect(mapStateToProps)(ConfirmationModal);
+    return (
+      <Modal
+        isOpen={modal.ui.isVisible && modal.ui.name === 'confirmation'}
+        className="pt-5"
+        toggle={() => hideModal({ name })}
+        centered
+        size="sm"
+      >
+        <ModalHeader
+          className="justify-content-center"
+        >
+          Are you sure?
+        </ModalHeader>
+        <ModalFooter
+          className="justify-content-center"
+        >
+          <Button
+            onClick={() => handleAction(modal)}
+            color="primary"
+            disabled={requestState === 'submitting'}
+          >
+            Yes
+          </Button>
+          <Button
+            onClick={() => hideModal({ name })}
+          >
+            No
+          </Button>
+        </ModalFooter>
+        <RenderAlert
+          isRender={requestState === 'failure'}
+          type="danger"
+        />
+      </Modal>
+    );
+  }
+}

@@ -53,7 +53,7 @@ export const createChannel = ({ ui, data }) => async (dispatch) => {
 
 export const editChannel = ({ ui, data }) => async (dispatch) => {
   try {
-    await axios.patch(routes.channels(data.id), {
+    await axios.patch(routes.channel(data.id), {
       data: {
         attributes: {
           ...data,
@@ -75,7 +75,7 @@ export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
 export const removeChannel = ({ ui, data }) => async (dispatch) => {
   dispatch(removeChannelRequest());
   try {
-    await axios.delete(routes.channels(data.id));
+    await axios.delete(routes.channel(data.id));
     dispatch(hideModal({ name: ui.name }));
   } catch (e) {
     dispatch(removeChannelFailure());

@@ -15,16 +15,16 @@ const mapStateToProps = ({ currentChannelId, username }) => {
   return props;
 };
 
-const ChatForm = ({
-  handleSubmit,
-  currentChannelId,
-  sendMessage,
-  username,
-  submitting,
-  submitFailed,
-  reset,
-}) => {
-  const addMessage = ({ message }) => {
+@connect(mapStateToProps)
+class ChatForm extends React.Component {
+  addMessage = ({ message }) => {
+    const {
+      reset,
+      currentChannelId,
+      sendMessage,
+      username,
+    } = this.props;
+
     reset();
     return sendMessage(currentChannelId, {
       text: message,
@@ -34,45 +34,50 @@ const ChatForm = ({
     });
   };
 
-  return (
-    <div className="mt-5">
-      <form
-        onSubmit={handleSubmit(addMessage)}
-      >
-        <Row>
-          <Col md={10}>
-            <FormGroup>
-              <Field
-                name="message"
-                type="textarea"
-                component={FieldInput}
+  render() {
+    const {
+      handleSubmit,
+      submitting,
+      submitFailed,
+    } = this.props;
+    return (
+      <div className="mt-5">
+        <form
+          onSubmit={handleSubmit(this.addMessage)}
+        >
+          <Row>
+            <Col md={10}>
+              <FormGroup>
+                <Field
+                  name="message"
+                  type="textarea"
+                  component={FieldInput}
+                  disabled={submitting}
+                />
+              </FormGroup>
+            </Col>
+            <Col md={2}>
+              <Button
+                type="submit"
                 disabled={submitting}
-              />
-            </FormGroup>
-          </Col>
-          <Col md={2}>
-            <Button
-              type="submit"
-              disabled={submitting}
-              color="primary"
-              className="w-100"
-            >
-              Send
-            </Button>
+                color="primary"
+                className="w-100"
+              >
+                Send
+              </Button>
 
-          </Col>
-        </Row>
-      </form>
-      <RenderAlert
-        isRender={submitFailed}
-        type="danger"
-      />
-    </div>
-  );
-};
-
-const ChatFormContainer = connect(mapStateToProps)(ChatForm);
+            </Col>
+          </Row>
+        </form>
+        <RenderAlert
+          isRender={submitFailed}
+          type="danger"
+        />
+      </div>
+    );
+  }
+}
 
 export default reduxForm({
   form: 'chatForm',
-})(ChatFormContainer);
+})(ChatForm);

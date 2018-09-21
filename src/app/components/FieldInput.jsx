@@ -5,7 +5,7 @@ const FieldInput = ({
   input, label, disabled, type,
 }) => (
   <Label className="w-100">
-    {label ? <span>{label}</span> : null}
+    <span>{label}</span>
     <Input
       type={type}
       disabled={disabled}

@@ -4,16 +4,6 @@ import Channels from './Channels';
 import Frame from './Frame';
 import ChatForm from './ChatForm';
 import AddChannel from './AddChannel';
-import connect from '../connect';
-
-const mapStateToProps = ({ user, channels, currentChannelId }) => {
-  const props = {
-    channels,
-    user,
-    currentChannelId,
-  };
-  return props;
-};
 
 const App = () => (
   <Container>
@@ -31,6 +21,7 @@ const App = () => (
         <ChatForm />
       </Col>
     </Row>
-  </Container>);
+  </Container>
+);
 
-export default connect(mapStateToProps)(App);
+export default App;

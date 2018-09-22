@@ -4,21 +4,12 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
-import { reduxForm } from 'redux-form';
 import ConfirmationModal from './ConfirmationModal';
 import CustomModal from './CustomModal';
 import ChannelMenu from './ChannelMenu';
+import EditChannelForm from './EditChannelForm';
 import connect from '../connect';
-import ChannelsForm from './ChannelsForm';
 import channelsSelector from '../selectors/channels';
-
-const EditChannelForm = reduxForm({
-  form: 'EditChannelForm',
-  onSubmitSuccess: (result, dispatch, { reset }) => {
-    reset();
-  },
-})(ChannelsForm);
-
 
 const mapStateToProps = (state) => {
   const props = {

@@ -1,17 +1,10 @@
 import React from 'react';
-import { Button, FormGroup } from 'reactstrap';
 import { Field } from 'redux-form';
+import { FormGroup, Button } from 'reactstrap';
 import FieldInput from './FieldInput';
 import RenderAlert from './RenderAlert';
 
-class FormModal extends React.Component {
-  componentDidMount() {
-    const { initialize, initialValues } = this.props;
-    return initialize && initialize({
-      ...initialValues,
-    });
-  }
-
+class ChannelsForm extends React.Component {
   render() {
     const {
       handleAction,
@@ -56,4 +49,4 @@ class FormModal extends React.Component {
   }
 }
 
-export default FormModal;
+export default ChannelsForm;

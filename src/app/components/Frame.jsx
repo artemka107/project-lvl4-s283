@@ -1,5 +1,4 @@
 import React from 'react';
-import { createSelector } from 'reselect';
 import {
   ListGroup,
   ListGroupItem,
@@ -7,17 +6,8 @@ import {
   ListGroupItemText,
 } from 'reactstrap';
 import connect from '../connect';
+import messagesSelector from '../selectors/messages';
 
-const getMessages = state => state.messages;
-const getCurrentChannelId = state => state.currentChannelId;
-
-const messagesSelector = createSelector(
-  getMessages,
-  getCurrentChannelId,
-  (messages, id) => Object
-    .values(messages)
-    .filter(({ channelId }) => channelId === id),
-);
 
 const mapStateToProps = (state) => {
   const props = {

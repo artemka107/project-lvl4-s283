@@ -28,19 +28,33 @@ export default class AddChannel extends React.Component {
   render() {
     const currentModalName = 'addChannel';
     const {
-      createChannel,
       showModal,
       modal,
+      createChannel,
     } = this.props;
+
+    const showAddChannelModal = () => {
+      showModal({
+        ui: {
+          name: currentModalName,
+        },
+      });
+    };
+
+    const handleCreateChannel = ({ text }) => createChannel({
+      data: {
+        name: text,
+      },
+      ui: {
+        ...modal.ui,
+      },
+    });
+
 
     return (
       <div className="mt-3">
         <Button
-          onClick={() => showModal({
-            ui: {
-              name: currentModalName,
-            },
-          })}
+          onClick={showAddChannelModal}
           color="primary"
         >
           Add +
@@ -49,14 +63,7 @@ export default class AddChannel extends React.Component {
           <AddChannelForm
             label="Channel name"
             buttonText="Add channel"
-            handleAction={({ text }) => createChannel({
-              data: {
-                name: text,
-              },
-              ui: {
-                ...modal.ui,
-              },
-            })}
+            handleAction={handleCreateChannel}
           />
         </CustomModal>
       </div>

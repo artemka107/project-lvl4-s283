@@ -24,7 +24,6 @@ class ChatForm extends React.Component {
       username,
     } = this.props;
 
-    reset();
     return sendMessage(currentChannelId, {
       text: message,
       author: {
@@ -79,4 +78,7 @@ class ChatForm extends React.Component {
 
 export default reduxForm({
   form: 'chatForm',
+  onSubmitSuccess: (result, dispatch, { reset }) => {
+    reset();
+  },
 })(ChatForm);

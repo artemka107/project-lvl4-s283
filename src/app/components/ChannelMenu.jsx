@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { curry } from 'lodash';
 import connect from '../connect';
 
 const mapStateToProps = ({ showModal }) => {
@@ -18,7 +17,7 @@ const mapStateToProps = ({ showModal }) => {
 
 @connect(mapStateToProps)
 export default class ChannelMenu extends React.Component {
-  chooseModal = curry((modalName, channelId) => {
+  chooseModal = (modalName, channelId) => {
     const { showModal } = this.props;
 
     showModal({
@@ -29,11 +28,11 @@ export default class ChannelMenu extends React.Component {
         id: channelId,
       },
     });
-  });
+  };
 
-  showEditChannelModal = () => this.chooseModal('editChannel');
+  showEditChannelModal = channelId => this.chooseModal.bind(null, 'editChannel', channelId);
 
-  showConfirmationModal = () => this.chooseModal('confirmation');
+  showConfirmationModal = channelId => this.chooseModal.bind(null, 'confirmation', channelId);
 
   render() {
     const {

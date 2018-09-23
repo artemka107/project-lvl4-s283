@@ -4,6 +4,7 @@ import Channels from './Channels';
 import Frame from './Frame';
 import ChatForm from './ChatForm';
 import AddChannel from './AddChannel';
+import UserContext from '../user-context';
 
 const App = () => (
   <Container>
@@ -18,7 +19,11 @@ const App = () => (
     </Row>
     <Row className="show-grid">
       <Col md={12}>
-        <ChatForm />
+        <UserContext.Consumer>
+          {username => (
+            <ChatForm username={username} />
+          )}
+        </UserContext.Consumer>
       </Col>
     </Row>
   </Container>

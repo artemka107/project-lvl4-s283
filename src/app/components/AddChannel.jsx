@@ -1,9 +1,8 @@
 import React from 'react';
-import { reduxForm } from 'redux-form';
 import { Button } from 'reactstrap';
 import connect from '../connect';
 import CustomModal from './CustomModal';
-import ChannelsForm from './ChannelsForm';
+import AddChannelForm from './AddChannelForm';
 
 const mapStateToProps = ({
   createChannel, showModal, modal,
@@ -15,13 +14,6 @@ const mapStateToProps = ({
   };
   return props;
 };
-
-const AddChannelForm = reduxForm({
-  form: 'AddchannelForm',
-  onSubmitSuccess: (result, dispatch, { reset }) => {
-    reset();
-  },
-})(ChannelsForm);
 
 @connect(mapStateToProps)
 export default class AddChannel extends React.Component {

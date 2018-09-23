@@ -75,7 +75,7 @@ export default class Channels extends React.Component {
                 {name}
               </NavLink>
               <ChannelMenu
-                id={id}
+                channelId={id}
                 isRender={removable}
               />
             </NavItem>

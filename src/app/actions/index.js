@@ -22,8 +22,6 @@ export const addChannel = createAction('CHANNEL_ADD');
 
 export const renameChannel = createAction('CHANNEL_RENAME');
 
-export const addUsername = createAction('USERNAME_ADD');
-
 export const setCurrentChannelId = createAction('CURRENT_CHANNEL_ID_SET');
 
 export const addMessage = createAction('MESSAGE_ADD');

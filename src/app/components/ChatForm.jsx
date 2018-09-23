@@ -7,10 +7,9 @@ import FieldInput from './FieldInput';
 import connect from '../connect';
 import RenderAlert from './RenderAlert';
 
-const mapStateToProps = ({ currentChannelId, username }) => {
+const mapStateToProps = ({ currentChannelId }) => {
   const props = {
     currentChannelId,
-    username,
   };
   return props;
 };

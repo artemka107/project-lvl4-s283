@@ -4,12 +4,6 @@ import { reducer as formReducer } from 'redux-form';
 import { keyBy, omitBy, omit } from 'lodash';
 import * as actions from '../actions';
 
-const username = handleActions({
-  [actions.addUsername](state, { payload }) {
-    return payload.username;
-  },
-}, '');
-
 const channels = handleActions({
   [actions.addChannels](state, { payload }) {
     return keyBy(payload.channels, 'id');
@@ -90,7 +84,6 @@ const modal = handleActions({
 
 
 export default combineReducers({
-  username,
   channels,
   channelsRemovingState,
   currentChannelId,

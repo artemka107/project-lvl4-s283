@@ -35,12 +35,14 @@ class Frame extends React.Component {
 
   render() {
     const { messages } = this.props;
+    const frameStyle = {
+      height: '500px',
+      overflowY: 'auto',
+    };
+
     return (
       <div
-        style={{
-          height: '500px',
-          overflowY: 'auto',
-        }}
+        style={frameStyle}
         className="border"
       >
         <div ref={this.listGroup}>

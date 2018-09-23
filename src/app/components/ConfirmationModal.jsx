@@ -18,20 +18,39 @@ const mapStateToProps = (state) => {
 
 @connect(mapStateToProps)
 export default class ConfirmationModal extends React.Component {
-  render() {
+  handleToggleModal = () => {
     const {
       name,
-      handleAction,
-      requestState,
-      modal,
       hideModal,
     } = this.props;
 
+    hideModal({ name });
+  }
+
+  handleAction = () => {
+    const {
+      modal,
+      handleAction,
+    } = this.props;
+
+    handleAction(modal);
+  }
+
+  render() {
+    const {
+      requestState,
+      modal,
+    } = this.props;
+
+    const isVisibleModal = modal.ui.isVisible && modal.ui.name === 'confirmation';
+    const disabledModalBtn = requestState === 'submitting';
+    const isRenderAlert = requestState === 'failure';
+
     return (
       <Modal
-        isOpen={modal.ui.isVisible && modal.ui.name === 'confirmation'}
+        isOpen={isVisibleModal}
         className="pt-5"
-        toggle={() => hideModal({ name })}
+        toggle={this.handleToggleModal}
         centered
         size="sm"
       >
@@ -44,20 +63,20 @@ export default class ConfirmationModal extends React.Component {
           className="justify-content-center"
         >
           <Button
-            onClick={() => handleAction(modal)}
+            onClick={this.handleAction}
             color="primary"
-            disabled={requestState === 'submitting'}
+            disabled={disabledModalBtn}
           >
             Yes
           </Button>
           <Button
-            onClick={() => hideModal({ name })}
+            onClick={this.handleToggleModal}
           >
             No
           </Button>
         </ModalFooter>
         <RenderAlert
-          isRender={requestState === 'failure'}
+          isRender={isRenderAlert}
           type="danger"
         />
       </Modal>

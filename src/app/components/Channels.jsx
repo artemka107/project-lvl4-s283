@@ -1,13 +1,11 @@
 import React from 'react';
 import {
   Nav,
-  NavItem,
-  NavLink,
 } from 'reactstrap';
 import ConfirmationModal from './ConfirmationModal';
 import CustomModal from './CustomModal';
-import ChannelMenu from './ChannelMenu';
 import EditChannelForm from './EditChannelForm';
+import ChannelItem from './ChannelItem';
 import connect from '../connect';
 import channelsSelector from '../selectors/channels';
 
@@ -25,13 +23,6 @@ const mapStateToProps = (state) => {
 
 @connect(mapStateToProps)
 export default class Channels extends React.Component {
-  changeChannel = id => (e) => {
-    const { setCurrentChannelId } = this.props;
-
-    e.preventDefault();
-    setCurrentChannelId({ id });
-  };
-
   editChannel = ({ text }) => {
     const {
       editChannel,
@@ -53,7 +44,6 @@ export default class Channels extends React.Component {
   render() {
     const {
       channels,
-      currentChannelId,
       channelsRemovingState,
       removeChannel,
     } = this.props;
@@ -63,22 +53,12 @@ export default class Channels extends React.Component {
           pills
         >
           {channels.map(({ name, id, removable }) => (
-            <NavItem
+            <ChannelItem
               key={id}
-              className="position-relative w-100"
-            >
-              <NavLink
-                href="#"
-                onClick={this.changeChannel(id)}
-                active={id === currentChannelId}
-              >
-                {name}
-              </NavLink>
-              <ChannelMenu
-                channelId={id}
-                isRender={removable}
-              />
-            </NavItem>
+              name={name}
+              id={id}
+              removable={removable}
+            />
           ))}
         </Nav>
         <ConfirmationModal

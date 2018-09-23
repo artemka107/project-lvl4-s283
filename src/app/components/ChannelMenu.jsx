@@ -30,15 +30,18 @@ export default class ChannelMenu extends React.Component {
     });
   };
 
-  showEditChannelModal = channelId => () => this.chooseModal('editChannel', channelId);
+  showEditChannelModal = () => {
+    const { channelId } = this.props;
+    this.chooseModal('editChannel', channelId);
+  }
 
-  showConfirmationModal = channelId => () => this.chooseModal('confirmation', channelId);
+  showConfirmationModal = () => {
+    const { channelId } = this.props;
+    this.chooseModal('confirmation', channelId);
+  }
 
   render() {
-    const {
-      isRender,
-      channelId,
-    } = this.props;
+    const { isRender } = this.props;
 
     if (!isRender) {
       return null;
@@ -57,12 +60,12 @@ export default class ChannelMenu extends React.Component {
         />
         <DropdownMenu>
           <DropdownItem
-            onClick={this.showEditChannelModal(channelId)}
+            onClick={this.showEditChannelModal}
           >
             Edit
           </DropdownItem>
           <DropdownItem
-            onClick={this.showConfirmationModal(channelId)}
+            onClick={this.showConfirmationModal}
           >
             Remove
           </DropdownItem>

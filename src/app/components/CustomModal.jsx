@@ -12,22 +12,32 @@ const mapStateToProps = (state) => {
 
 @connect(mapStateToProps)
 export default class CustomModal extends React.Component {
+  handleToggleModal = () => {
+    const {
+      name,
+      hideModal,
+    } = this.props;
+
+    hideModal({ name });
+  }
+
   render() {
     const {
-      modal, name, hideModal, children,
+      modal, name, children,
     } = this.props;
+    const isVisibleModal = modal.ui.isVisible && modal.ui.name === name;
+
     return (
       <Modal
-        isOpen={modal.ui.isVisible && modal.ui.name === name}
+        isOpen={isVisibleModal}
         className="pt-5"
-        toggle={() => hideModal({ name })}
+        toggle={this.handleToggleModal}
       >
-        <ModalHeader toggle={() => hideModal({ name })} />
+        <ModalHeader toggle={this.handleToggleModal} />
         <ModalBody>
           {React.Children.map(children, child => child)}
         </ModalBody>
       </Modal>
-
     );
   }
 }

@@ -29,7 +29,7 @@ export default class Channels extends React.Component {
       modal,
     } = this.props;
 
-    editChannel({
+    return editChannel({
       data: {
         name: text,
         ...modal.data,

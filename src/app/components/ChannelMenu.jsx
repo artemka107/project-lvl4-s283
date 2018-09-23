@@ -30,9 +30,9 @@ export default class ChannelMenu extends React.Component {
     });
   };
 
-  showEditChannelModal = channelId => this.chooseModal.bind(null, 'editChannel', channelId);
+  showEditChannelModal = channelId => () => this.chooseModal('editChannel', channelId);
 
-  showConfirmationModal = channelId => this.chooseModal.bind(null, 'confirmation', channelId);
+  showConfirmationModal = channelId => () => this.chooseModal('confirmation', channelId);
 
   render() {
     const {
